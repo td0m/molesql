@@ -1,0 +1,36 @@
+{
+  "name": "molesql",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./node": "./src/drivers/node/index.ts"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint . --fix --cache --max-warnings=0",
+    "format": "prettier --write .",
+    "check": "npm run lint && npm run format"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "description": "",
+  "dependencies": {
+    "zod": "^3.24.3"
+  },
+  "devDependencies": {
+    "@html-eslint/eslint-plugin": "^0.39.0",
+    "@html-eslint/parser": "^0.39.0",
+    "@types/node": "^22.15.3",
+    "eslint": "^9.25.1",
+    "eslint-config-prettier": "^10.1.2",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "prettier": "^3.5.3",
+    "prettier-plugin-embed": "^0.5.0",
+    "prettier-plugin-sql": "^0.19.0",
+    "typescript-eslint": "^8.31.0"
+  }
+}
