@@ -31,7 +31,7 @@ export class SQL {
   }
 }
 
-type SQLArg = string | number | SQL;
+type SQLArg = string | number | SQL | null;
 
 // sql safely constructs an instance of SQL from a tagged template literal
 // e.g. sql`select id from users where email=${email}` will be safely turned into:
