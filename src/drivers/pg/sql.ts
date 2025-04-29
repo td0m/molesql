@@ -1,8 +1,8 @@
 import { createJoin } from "../../util/create-join.ts";
-import type { GenericSQL } from "../../util/sql.ts";
+import type { GenericSQL as GenericSQL } from "../../util/sql.ts";
 import { createTaggedTemplate } from "../../util/tagged-template.ts";
 
-type Param = string | number | null | GenericSQL<Param>;
+type Param = string | number | null | Record<string, unknown> | Array<unknown> | GenericSQL<Param>;
 
 export type SQL = GenericSQL<Param>;
 

@@ -1,4 +1,5 @@
 import type { DatabaseSync, SQLInputValue } from "node:sqlite";
+
 import type { ZodType, ZodTypeDef } from "zod";
 
 import { SqlNoRowsError, SqlRowParseError } from "../../errors.ts";

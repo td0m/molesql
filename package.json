@@ -24,6 +24,8 @@
   "license": "MIT",
   "description": "",
   "dependencies": {
+    "@types/pg": "^8.11.14",
+    "pg": "^8.15.6",
     "zod": "^3.24.3"
   },
   "devDependencies": {
