@@ -15,7 +15,6 @@ export const createDB = (db: Pool) => {
     },
     maybeOne: async <T, U = T>(t: ZodType<T, ZodTypeDef, U>, sql: SQL): Promise<T | undefined> => {
       const res = await db.query(sql.sql, sql.params);
-      // TODO: fix it?
       if (res.rows.length === 0) {
         return undefined;
       }
