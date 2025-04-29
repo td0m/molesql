@@ -53,3 +53,15 @@ export function sql(literals: TemplateStringsArray, ...args: SQLArg[]): SQL {
 }
 
 sql.boolean = (b: boolean) => (b ? 1 : 0);
+
+// e.g. sql.join([sql`name IS NOT NULL`, sql`is_archived = ${0}`], sql` AND `)
+sql.join = (args: SQLArg[], joiner: SQL): SQL => {
+  if (args.length === 0) return sql``;
+  const stmt = sql``;
+  args.forEach((arg, i) => {
+    if (arg instanceof SQL) stmt.append(arg);
+    else stmt.addParam(arg);
+    if (i < args.length - 1) stmt.append(joiner);
+  });
+  return stmt;
+};
