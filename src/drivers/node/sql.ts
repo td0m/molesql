@@ -11,7 +11,7 @@ type Tag = {
   boolean: (b: boolean) => number;
   join: (args: Param[], joiner: SQL) => SQL;
   // careful, this is dangerous
-  literal: (unsafeRawSQL: string) => SQL;
+  unsafeLiteral: (unsafeRawSQL: string) => SQL;
 };
 
 // sql safely constructs an instance of SQL from a tagged template literal
@@ -24,6 +24,6 @@ sql.boolean = (b: boolean) => (b ? 1 : 0);
 // e.g. sql.join([sql`name IS NOT NULL`, sql`is_archived = ${0}`], sql` AND `)
 sql.join = createJoin<Param>();
 
-sql.literal = (unsafeRawSQL: string) => {
+sql.unsafeLiteral = (unsafeRawSQL: string) => {
   return new GenericSQL<Param>(unsafeRawSQL);
 };
