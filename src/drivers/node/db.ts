@@ -36,6 +36,9 @@ export const createDB = (db: DatabaseSync) => {
       const stmt = db.prepare(sql.sql);
       stmt.run(...(sql.params as SQLInputValue[]));
     },
+    // transaction: (fn: (db: DB) => void) => {
+    //   db.tr
+    // },
   };
 };
 

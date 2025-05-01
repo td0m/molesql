@@ -27,3 +27,11 @@ sql.join = createJoin<Param>();
 sql.unsafeLiteral = (unsafeRawSQL: string) => {
   return new GenericSQL<Param>(unsafeRawSQL);
 };
+
+console.log(sql`
+  CREATE TABLE IF NOT EXISTS ${sql.unsafeLiteral("users")} (
+    id BIGSERIAL PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE,
+    applied_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP
+  );
+`);

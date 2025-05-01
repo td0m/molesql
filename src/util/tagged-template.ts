@@ -7,6 +7,7 @@ export const createTaggedTemplate =
     literals.raw.forEach((lit: string, i: number) => {
       if (i > 0) {
         const arg = args[i - 1];
+        console.log(arg, arg instanceof GenericSQL);
         if (arg instanceof GenericSQL) {
           stmt.append(arg);
         } else if (i > 0 && arg !== undefined) {
