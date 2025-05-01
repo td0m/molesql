@@ -1,8 +1,8 @@
 import { createJoin } from "../../util/create-join.ts";
-import type { GenericSQL } from "../../util/sql.ts";
+import { GenericSQL } from "../../util/sql.ts";
 import { createTaggedTemplate } from "../../util/tagged-template.ts";
 
-type Param = string | number | null | GenericSQL<Param>;
+export type Param = string | number | null | GenericSQL<Param>;
 
 export type SQL = GenericSQL<Param>;
 
@@ -10,6 +10,8 @@ type Tag = {
   (literals: TemplateStringsArray, ...args: Param[]): SQL;
   boolean: (b: boolean) => number;
   join: (args: Param[], joiner: SQL) => SQL;
+  // careful, this is dangerous
+  literal: (unsafeRawSQL: string) => SQL;
 };
 
 // sql safely constructs an instance of SQL from a tagged template literal
@@ -21,3 +23,7 @@ sql.boolean = (b: boolean) => (b ? 1 : 0);
 
 // e.g. sql.join([sql`name IS NOT NULL`, sql`is_archived = ${0}`], sql` AND `)
 sql.join = createJoin<Param>();
+
+sql.literal = (unsafeRawSQL: string) => {
+  return new GenericSQL<Param>(unsafeRawSQL);
+};
