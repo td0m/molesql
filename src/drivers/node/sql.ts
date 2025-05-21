@@ -2,7 +2,8 @@ import { createJoin } from "../../util/create-join.ts";
 import { GenericSQL } from "../../util/sql.ts";
 import { createTaggedTemplate } from "../../util/tagged-template.ts";
 
-export type Param = string | number | null | GenericSQL<Param>;
+// Uint8Array<ArrayBuffer> is used for things like sqlite-vec
+export type Param = string | number | null | Uint8Array<ArrayBuffer> | GenericSQL<Param>;
 
 export type SQL = GenericSQL<Param>;
 
