@@ -1,5 +1,9 @@
 # `molesql`
 
+```bash
+npm install git+https://github.com/td0m/molesql.git
+```
+
 ```ts
 import { sqlite } from 'molesql'
 

@@ -9,6 +9,7 @@ export type Sqlite = {
   db: nodeSqlite.DB;
   sql: typeof nodeSqlite.sql;
   migrations: ReturnType<typeof nodeSqlite.createMigrations>;
+  t: typeof nodeSqlite.t;
 };
 
 export function sqlite(path?: string | Buffer | URL, options?: DatabaseSyncOptions): Sqlite;
@@ -27,5 +28,6 @@ export function sqlite(
     db,
     sql: nodeSqlite.sql,
     migrations: nodeSqlite.createMigrations(db),
+    t: nodeSqlite.t,
   };
 }
