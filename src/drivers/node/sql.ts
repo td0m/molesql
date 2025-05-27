@@ -11,6 +11,7 @@ type Tag = {
   (literals: TemplateStringsArray, ...args: Param[]): SQL;
   boolean: (b: boolean) => number;
   join: (args: Param[], joiner: SQL) => SQL;
+  where: (...args: (Param | undefined)[]) => SQL;
   // careful, this is dangerous
   unsafeLiteral: (unsafeRawSQL: string) => SQL;
 };
@@ -24,6 +25,17 @@ sql.boolean = (b: boolean) => (b ? 1 : 0);
 
 // e.g. sql.join([sql`name IS NOT NULL`, sql`is_archived = ${0}`], sql` AND `)
 sql.join = createJoin<Param>();
+
+sql.where = (...args: (Param | undefined)[]) => {
+  const filteredArgs = args.filter((arg) => arg !== undefined);
+  if (filteredArgs.length === 0) {
+    return sql``;
+  }
+  return sql`
+    WHERE
+      ${sql.join(filteredArgs, sql` AND `)}
+  `;
+};
 
 sql.unsafeLiteral = (unsafeRawSQL: string) => {
   return new GenericSQL<Param>(unsafeRawSQL);
