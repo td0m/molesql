@@ -4,6 +4,8 @@ import type { DB } from "./db.ts";
 import { sql } from "./sql.ts";
 import * as t from "./types.ts";
 
+export type Migrations = ReturnType<typeof createMigrations>;
+
 export function createMigrations(db: DB, table: string = "migrations") {
   const tableSQL = sql.unsafeLiteral(table);
   db.run(sql`

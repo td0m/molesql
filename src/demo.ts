@@ -1,8 +1,13 @@
 import { z } from "zod";
+import { DatabaseSync } from "node:sqlite";
 
-import { sqlite } from "./index.ts";
+import { createDB } from "./drivers/node/db.ts";
+import { sql } from "./drivers/node/sql.ts";
+import { createMigrations } from "./drivers/node/migrations.ts";
 
-const { db, sql, migrations } = sqlite();
+const rawDB = new DatabaseSync(":memory:");
+const db = createDB(rawDB);
+const migrations = createMigrations(db);
 
 migrations.migrate("init", (tx) => {
   tx.run(sql`CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT)`);
