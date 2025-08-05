@@ -1,13 +1,15 @@
 import type { DatabaseSync, SQLInputValue } from "node:sqlite";
-import type { z, ZodObject } from "zod";
+import type { z, ZodAny, ZodObject } from "zod";
 
 import { SqlNoRowsError, SqlRowParseError } from "../../errors.ts";
 
 import type { SQL } from "./sql.ts";
 
+type ObjectOrAny = ZodObject | ZodAny;
+
 export const createDB = (db: DatabaseSync) => {
   return {
-    maybeOne: <T extends ZodObject>(schema: T, sql: SQL): z.infer<T> | undefined => {
+    maybeOne: <T extends ObjectOrAny>(schema: T, sql: SQL): z.infer<T> | undefined => {
       const stmt = db.prepare(sql.sql);
       // TODO: fix it?
       const row = stmt.get(...(sql.params as SQLInputValue[]));
@@ -20,7 +22,7 @@ export const createDB = (db: DatabaseSync) => {
       }
       return parsed.data;
     },
-    one<T extends ZodObject>(schema: T, sql: SQL): z.infer<T> {
+    one<T extends ObjectOrAny>(schema: T, sql: SQL): z.infer<T> {
       const result = this.maybeOne(schema, sql);
       if (!result) {
         throw new SqlNoRowsError(sql.sql);
@@ -28,14 +30,14 @@ export const createDB = (db: DatabaseSync) => {
       return result;
     },
     // TODO: ensure each key in object has a default
-    oneOrDefault<T extends ZodObject>(schema: T, sql: SQL): z.infer<T> {
+    oneOrDefault<T extends ObjectOrAny>(schema: T, sql: SQL): z.infer<T> {
       const result = this.maybeOne(schema, sql);
       if (!result) {
         return schema.parse({});
       }
       return result;
     },
-    all: <T extends ZodObject>(schema: T, sql: SQL): z.infer<T>[] => {
+    all: <T extends ObjectOrAny>(schema: T, sql: SQL): z.infer<T>[] => {
       const stmt = db.prepare(sql.sql);
       const rows = stmt.all(...(sql.params as SQLInputValue[]));
       return rows.map((row) => schema.parse(row));
