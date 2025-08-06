@@ -9,7 +9,12 @@ type Migration = {
   run: (tx: WriteTX) => void;
 };
 
-export function migrations(db: DB) {
+export type Migrations = {
+  add(name: string, tx: (db: WriteTX) => void): Migrations
+  run(): void
+}
+
+export function migrations(db: DB): Migrations {
   const list: Migration[] = [];
 
   return {
@@ -68,4 +73,3 @@ export function migrations(db: DB) {
   };
 }
 
-export type Migrations = ReturnType<typeof migrations>;
