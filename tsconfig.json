@@ -21,6 +21,6 @@
     "outDir": "dist",
     "declaration": true
   },
-  "include": ["src/**/*", "demo.ts"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }
